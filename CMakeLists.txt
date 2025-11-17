@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 option(USINGWCARACTER "Usa los caracteres wchar_t para las rutas de archivos" OFF)
-option(TEST "Indica si libme esta en testeo o en compilacion libreria" ON)
+option(TEST "Indica si libme esta en testeo o en compilacion libreria" OFF)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -15,7 +15,11 @@ ${CMAKE_SOURCE_DIR}/lib/lexer/lexer.cpp
 )
 link_directories(${CMAKE_SOURCE_DIR}/libme/lib)
 target_link_libraries(SLFBP-Lexer-Test PRIVATE Pathcch ${CMAKE_SOURCE_DIR}/lib/stda/libstdandart-library-for-me.a)
+
+
 else()
+
+
 project(SLFBP-Lexer)
 add_library(SLFBP-Lexer STATIC
 ${CMAKE_SOURCE_DIR}/lib/lexer/lexer.cpp

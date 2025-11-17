@@ -6,11 +6,11 @@
 #ifndef LEXER_SLFBP
 #define LEXER_SLFBP
 
-#define ARGDEFAULT {"#","(",")","[","]","{","}",".","->","++","--","!","*","/","%","+","-","<<",">>","<",">","<=",">=","==","!=","&","^","|","&&","||","?",":","=","+=","-=","*=","/=","&=","|=","^=","<<=",">>=","%=",","}
+#define ARGDEFAULT {"#", "(", ")", "[", "]", "{", "}", ".", "->", "++", "--", "!", "*", "/", "%", "+", "-", "<<", ">>", "<", ">", "<=", ">=", "==", "!=", "&", "^", "|", "&&", "||", "?", ":", "=", "+=", "-=", "*=", "/=", "&=", "|=", "^=", "<<=", ">>=", "%=", ","}
 
 namespace slfbp
 {
-    
+
     class token
     {
     public:
@@ -25,6 +25,12 @@ namespace slfbp
         token() : _atom(), _id(token::id::none) {}
         token(const char *atom, token::id id) : _atom(atom), _id(id) {}
         token(const char *atom, size_t size, token::id id) : _atom(atom, size), _id(id) {}
+        bool equals(const char *atom, token::id id)
+        {
+            if (id != _id)
+                return false;
+            return _atom == atom;
+        }
         ~token() {}
     };
     inline bool operator==(token::id lhs, u8 rhs)
@@ -43,11 +49,12 @@ namespace slfbp
     {
     private:
         std::map<std::string, bool> symbols_reference;
-        void add(std::string& str, slfbp::token::id type, std::vector<slfbp::token>& alloc);
+        void add(std::string &str, slfbp::token::id type, std::vector<slfbp::token> &alloc);
 
     public:
         lexer(std::initializer_list<const char *> args_symbols = ARGDEFAULT);
         void tokenize(const std::string &str, std::vector<slfbp::token> &alloc);
+        bool issymbol(const std::string &symbol);
         void view(const std::vector<slfbp::token> &alloc);
         ~lexer() {}
     };
